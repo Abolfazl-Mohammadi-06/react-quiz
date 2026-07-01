@@ -10,10 +10,11 @@ const initialState = {
     questions: [],
 // 'loading', 'error', 'ready','active','finished'
     status: 'loading',
+    index: 0,
 }
 
 function reducer(state, action) {
-    console.log(state)
+    // console.log(state)
     switch (action.type) {
         case"dataReceived":
             return {...state, questions: action.payload, status: 'ready'};
@@ -27,7 +28,7 @@ function reducer(state, action) {
 }
 
 export default function App() {
-    const [{questions, status}, dispatch] = useReducer(reducer, initialState);
+    const [{questions, status, index}, dispatch] = useReducer(reducer, initialState);
 
     const numQuestions = questions.length;
     useEffect(function () {
@@ -42,7 +43,7 @@ export default function App() {
             {status === "loading" && <Loader/>}
             {status === "error" && <Error/>}
             {status === "ready" && <StartScreen dispatch={dispatch} numQuestions={numQuestions}/>}
-            {status === "active" && <Question/>}
+            {status === "active" && <Question question={questions[index]}/>}
         </Main>
     </div>
 }
